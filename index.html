@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="icon" href="/favicon.png">
+    <title>Alby security PoC</title>
+    <style>
+      button {
+        width: 93%;
+        display: inline;
+        margin-right: 1.3rem;
+      }
+
+      .display {
+        display: block !important;
+      }
+    </style>
+    <script>
+      async function main() {
+        const data = await window.fetch("https://myhlcivijzochaekxdhp.functions.supabase.co/get-user-count", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15aGxjaXZpanpvY2hhZWt4ZGhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDk5MzQzMzcsImV4cCI6MTk2NTUxMDMzN30.aK3O5JCcQ2qacykGWMGhtdupLd3KsB6P-rHVxAmwPsw"
+          }
+        });
+        
+        const parsed = await data.json();
+        document.getElementById("userCount").innerText = parsed.userCount;
+      }
+      
+      main();
+    </script>
+  </head>
+
+  <body>
+    <main class="container">
+      <h1>Citadel user count</h1>
+      <p>
+        This page shows the amount of users today running Citadel 0.0.5 or later whose nodes are creating backups.
+        Backups are being created by everyone who rebooted after the update or started with a version that was 0.0.5 or greater.
+      </p>
+      <p>Current user count: <span id="userCount"></span></p>
+    </main>
+    <footer class="container">
+      Developed by <a href="https://twitter.com/AaronDewes">@AaronDewes</a>.
+    </footer>
+  </body>
+</html>
