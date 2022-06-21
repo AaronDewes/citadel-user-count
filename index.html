@@ -15,7 +15,8 @@
         display: block !important;
       }
     </style>
-    <script>
+    <script type="module">
+      import { CountUp } from "https://unpkg.com/countup.js@2.2.0/dist/countUp.js";
       async function main() {
         const data = await window.fetch("https://myhlcivijzochaekxdhp.functions.supabase.co/get-user-count", {
           method: "POST",
@@ -25,7 +26,12 @@
         });
         
         const parsed = await data.json();
-        document.getElementById("userCount").innerText = parsed.userCount;
+        const countUp = new CountUp('userCount', parsed.userCount);
+        if (!countUp.error) {
+          countUp.start();
+        } else {
+          console.error(countUp.error);
+        }
       }
       
       main();
@@ -39,7 +45,7 @@
         This page shows the amount of users today running Citadel 0.0.5 or later whose nodes are creating backups.
         Backups are being created by everyone who rebooted after the update or started with a version that was 0.0.5 or greater.
       </p>
-      <p>Current user count: <span id="userCount">Loading...</span></p>
+      <p>Current user count: <span id="userCount">0</span></p>
     </main>
     <footer class="container">
       Developed by <a href="https://twitter.com/AaronDewes">@AaronDewes</a>.
