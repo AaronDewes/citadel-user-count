@@ -60,36 +60,26 @@
     </style>
     <script type="module">
       import { CountUp } from "https://unpkg.com/countup.js@2.2.0/dist/countUp.js";
-      let idsOnScreen = [];
       function randomlyPlace(text) {
-        idsOnScreen.push(text);
         const fullWidth = window.innerWidth;
         const fullHeight = window.innerHeight;
 
         const elem = document.createElement("div");
-        elem.textContent = `${text}...`;
+        elem.textContent = text;
         elem.style.position = "absolute";
         elem.style.left = Math.round(Math.random() * fullWidth) + "px";
         elem.classList.add("userid");
-        const randomDuration = Math.floor(Math.random() * 5000);
-        setTimeout(() => {
-          document.body.appendChild(elem);
-        }, randomDuration);
-        setTimeout(() => {
-          elem.remove();
-          const index = idsOnScreen.indexOf(text);
-          if (index !== -1) {
-            idsOnScreen.splice(index, 1);
-          }
-        }, randomDuration + 10 * 1000);
+        const randomDuration = Math.floor(Math.random() * 50000);
+        elem.style.animationDelay = randomDuration + "ms";
+        document.body.appendChild(elem);
       }
-      let amountOfPeople = 2;
+      let amountOfPeople = 20;
       if (window.innerWidth > 600) {
-        amountOfPeople = 5;
+        amountOfPeople = 50;
       } else if (window.innerWidth > 1000) {
-        amountOfPeople = 10;
+        amountOfPeople = 100;
       } else if (window.innerWidth > 1300) {
-        amountOfPeople = 12;
+        amountOfPeople = 120;
       }
       async function main() {
         const data = await window.fetch(
@@ -104,18 +94,16 @@
         );
 
         const parsed = await data.json();
+        const selectedUsers = parsed.shortUserIds
+          .sort(() => 0.5 - Math.random())
+          .slice(0, amountOfPeople);
+
         const countUp = new CountUp("userCount", parsed.userCount);
         if (!countUp.error) {
           countUp.start(() => {
-            setInterval(() => {
-              const selectedUsers = parsed.shortUserIds
-                .filter((elem) => !idsOnScreen.includes(elem))
-                .sort(() => 0.5 - Math.random())
-                .slice(0, amountOfPeople);
-              for (let user of selectedUsers) {
-                randomlyPlace(user);
-              }
-            }, 1000);
+            for (let user of selectedUsers) {
+              randomlyPlace(`${user}...`);
+            }
           });
         } else {
           console.error(countUp.error);
