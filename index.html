@@ -1,8 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <link rel="icon" href="/favicon.png">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
+    <link rel="icon" href="/favicon.png" />
     <title>Citadel user count</title>
     <style>
       .user-count {
@@ -15,41 +18,244 @@
         font-size: 8rem;
         line-height: 9rem;
       }
+
+      .hover {
+        z-index: -10;
+        opacity: 0;
+        animation: move 10s ease-in-out infinite, delayedShow 1s linear forwards;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+      }
+
+      .white-bg {
+        background: white;
+      }
+
+      @keyframes delayedShow {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes move {
+        to {
+          top: 100%;
+          transform: translate(0);
+        }
+      }
     </style>
     <script type="module">
       import { CountUp } from "https://unpkg.com/countup.js@2.2.0/dist/countUp.js";
+      const someUsers = [
+        "4be3b",
+        "0ea02",
+        "80aa2",
+        "80082",
+        "6e7de",
+        "bcb10",
+        "4411d",
+        "ad333",
+        "07db3",
+        "6dd1e",
+        "de2cd",
+        "09843",
+        "1b717",
+        "20dd0",
+        "aaf79",
+        "218ad",
+        "13c49",
+        "69827",
+        "024e5",
+        "d67ad",
+        "98864",
+        "0ffc3",
+        "e9cee",
+        "85bc1",
+        "90c92",
+        "be4fd",
+        "9ff48",
+        "9a65c",
+        "536ab",
+        "3534d",
+        "d6077",
+        "fccd9",
+        "8aa6f",
+        "64403",
+        "82f05",
+        "f27b6",
+        "e7a84",
+        "87cbd",
+        "66583",
+        "58e19",
+        "0187b",
+        "cf922",
+        "15a5e",
+        "adc7a",
+        "abb2b",
+        "a58d7",
+        "8e1d7",
+        "d47ff",
+        "3375e",
+        "5e2d9",
+        "498bd",
+        "68664",
+        "76a3f",
+        "cca62",
+        "35723",
+        "0bc7c",
+        "cd1de",
+        "f7945",
+        "8beb4",
+        "72f84",
+        "a930c",
+        "6cb6c",
+        "d7b03",
+        "09280",
+        "ea8e7",
+        "f72c1",
+        "1fef3",
+        "42561",
+        "8aa63",
+        "89ea6",
+        "83ab9",
+        "afffa",
+        "d5b0a",
+        "c8ebc",
+        "21b2e",
+        "4d6bd",
+        "4d1e3",
+        "f428b",
+        "cffe9",
+        "ab800",
+        "37ea7",
+        "84563",
+        "29734",
+        "611ca",
+        "94f53",
+        "33fa9",
+        "40626",
+        "6d686",
+        "f06e8",
+        "102f1",
+        "e7014",
+        "55c8a",
+        "ae876",
+        "9b710",
+        "cb7c8",
+        "54fc3",
+        "b65cf",
+        "fe4bd",
+        "8162a",
+        "d085b",
+        "dcb48",
+        "3fd7b",
+        "4c701",
+        "8c271",
+        "1b859",
+        "b44c3",
+        "01d53",
+        "bccb5",
+        "ad43e",
+        "88422",
+        "f6a46",
+        "77ffd",
+        "af20a",
+        "c80d7",
+        "013ee",
+        "4054e",
+        "c4c87",
+        "b07c7",
+        "4dce0",
+        "1317d",
+        "f7f43",
+        "514be",
+        "0c304",
+        "34466",
+        "7629c",
+        "f6c65",
+        "fcbb5",
+        "d9575",
+        "abd1c",
+        "13786",
+        "2c262",
+        "53b2a",
+        "67bfc",
+        "98edc",
+        "2ad46",
+        "c2b16",
+        "0c9b1",
+        "173d2",
+        "9d85b",
+        "d76c3",
+        "7f799",
+        "12ac3",
+        "1d4a4",
+        "9c785",
+        "c61a3",
+        "6d876",
+        "71f96",
+        "935fb",
+        "68243",
+        "2d189",
+      ];
       async function main() {
-        const data = await window.fetch("https://myhlcivijzochaekxdhp.functions.supabase.co/get-user-count", {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15aGxjaXZpanpvY2hhZWt4ZGhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDk5MzQzMzcsImV4cCI6MTk2NTUxMDMzN30.aK3O5JCcQ2qacykGWMGhtdupLd3KsB6P-rHVxAmwPsw"
+        const data = await window.fetch(
+          "https://myhlcivijzochaekxdhp.functions.supabase.co/get-user-count",
+          {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15aGxjaXZpanpvY2hhZWt4ZGhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDk5MzQzMzcsImV4cCI6MTk2NTUxMDMzN30.aK3O5JCcQ2qacykGWMGhtdupLd3KsB6P-rHVxAmwPsw",
+            },
           }
-        });
-        
+        );
+
         const parsed = await data.json();
-        const countUp = new CountUp('userCount', parsed.userCount);
+        const countUp = new CountUp("userCount", parsed.userCount);
         if (!countUp.error) {
           countUp.start();
         } else {
           console.error(countUp.error);
         }
       }
-      
+
+      function randomlyPlace(text) {
+        const fullWidth = window.innerWidth;
+        const fullHeight = window.innerHeight;
+
+        const elem = document.createElement("div");
+        elem.textContent = text;
+        elem.style.position = "absolute";
+        elem.style.left = Math.round(Math.random() * fullWidth) + "px";
+        elem.classList.add("hover");
+        const randomDuration = Math.floor(Math.random() * 10000);
+        elem.style.animationDelay = randomDuration + "ms";
+        document.body.appendChild(elem);
+      }
+      const amountOfPeople = 50;
+      const selectedUsers = someUsers
+        .sort(() => 0.5 - Math.random())
+        .slice(0, amountOfPeople);
+      for (let user of selectedUsers) {
+        randomlyPlace(`${user}...`);
+      }
       main();
     </script>
   </head>
 
   <body>
-    <main class="container">
-      <h1>Citadel user count</h1>
-      <p>
-        This page shows the amount of users today running Citadel 0.0.5 or later whose nodes are creating backups.
-        Backups are being created by everyone who rebooted after the update or started with a version that was 0.0.5 or greater.
-      </p>
-      <p class="user-count"><span id="userCount">0</span></p>
+    <main class="container" >
+      <p class="user-count"><span id="userCount" class="white-bg">0</span></p>
     </main>
     <footer class="container">
-      Developed by <a href="https://twitter.com/AaronDewes">@AaronDewes</a>.
+      <p class="white-bg">
+        This page shows the amount of users today running Citadel 0.0.5 or later
+        whose nodes are creating backups. Backups are being created by everyone
+        who rebooted after the update or started with a version that was 0.0.5
+        or greater.
+      </p>
     </footer>
   </body>
 </html>
