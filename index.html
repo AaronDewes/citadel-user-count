@@ -5,14 +5,15 @@
     <link rel="icon" href="/favicon.png">
     <title>Citadel user count</title>
     <style>
-      button {
-        width: 93%;
-        display: inline;
-        margin-right: 1.3rem;
+      .user-count {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .display {
-        display: block !important;
+      #userCount {
+        font-size: 8rem;
+        line-height: 9rem;
       }
     </style>
     <script type="module">
@@ -45,7 +46,7 @@
         This page shows the amount of users today running Citadel 0.0.5 or later whose nodes are creating backups.
         Backups are being created by everyone who rebooted after the update or started with a version that was 0.0.5 or greater.
       </p>
-      <p>Current user count: <span id="userCount">0</span></p>
+      <p class="user-count"><span id="userCount">0</span></p>
     </main>
     <footer class="container">
       Developed by <a href="https://twitter.com/AaronDewes">@AaronDewes</a>.
