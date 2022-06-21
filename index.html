@@ -7,7 +7,15 @@
     />
     <link rel="icon" href="/favicon.png" />
     <title>Citadel user count</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
       .user-count {
         display: flex;
         align-items: center;
@@ -253,13 +261,5 @@
     <main class="container" >
       <p class="user-count"><span id="userCount" >0</span> nodes are running Citadel</p>
     </main>
-    <footer class="container">
-      <p>
-        This page shows the amount of users today running Citadel 0.0.5 or later
-        whose nodes are creating backups. Backups are being created by everyone
-        who rebooted after the update or started with a version that was 0.0.5
-        or greater.
-      </p>
-    </footer>
   </body>
 </html>
