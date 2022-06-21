@@ -7,20 +7,27 @@
     />
     <link rel="icon" href="/favicon.png" />
     <title>Citadel user count</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
-      html, body {
+      html,
+      body {
         width: 100%;
         height: 100%;
         margin: 0;
         padding: 0;
         overflow: hidden;
       }
+
+      main {
+        height: 100%;
+      }
+
       .user-count {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        height: 100%;
       }
 
       #userCount {
@@ -31,7 +38,7 @@
       .userid {
         z-index: -10;
         opacity: 0;
-        animation: move 10s ease-in infinite, delayedShow 1s linear forwards;
+        animation: move 10s ease-in forwards, delayedShow 1s linear forwards;
         position: absolute;
         top: 0;
         left: 0;
@@ -53,26 +60,36 @@
     </style>
     <script type="module">
       import { CountUp } from "https://unpkg.com/countup.js@2.2.0/dist/countUp.js";
+      let idsOnScreen = [];
       function randomlyPlace(text) {
+        idsOnScreen.push(text);
         const fullWidth = window.innerWidth;
         const fullHeight = window.innerHeight;
 
         const elem = document.createElement("div");
-        elem.textContent = text;
+        elem.textContent = `${text}...`;
         elem.style.position = "absolute";
         elem.style.left = Math.round(Math.random() * fullWidth) + "px";
         elem.classList.add("userid");
-        const randomDuration = Math.floor(Math.random() * 50000);
-        elem.style.animationDelay = randomDuration + "ms";
-        document.body.appendChild(elem);
+        const randomDuration = Math.floor(Math.random() * 5000);
+        setTimeout(() => {
+          document.body.appendChild(elem);
+        }, randomDuration);
+        setTimeout(() => {
+          elem.remove();
+          const index = idsOnScreen.indexOf(text);
+          if (index !== -1) {
+            idsOnScreen.splice(index, 1);
+          }
+        }, randomDuration + 10 * 1000);
       }
-      let amountOfPeople = 20;
+      let amountOfPeople = 2;
       if (window.innerWidth > 600) {
-        amountOfPeople = 50;
+        amountOfPeople = 5;
       } else if (window.innerWidth > 1000) {
-        amountOfPeople = 100;
-      }  else if (window.innerWidth > 1300) {
-        amountOfPeople = 120;
+        amountOfPeople = 10;
+      } else if (window.innerWidth > 1300) {
+        amountOfPeople = 12;
       }
       async function main() {
         const data = await window.fetch(
@@ -87,15 +104,19 @@
         );
 
         const parsed = await data.json();
-        const selectedUsers = parsed.shortUserIds
-          .sort(() => 0.5 - Math.random())
-          .slice(0, amountOfPeople);
-        for (let user of selectedUsers) {
-          randomlyPlace(`${user}...`);
-        }
         const countUp = new CountUp("userCount", parsed.userCount);
         if (!countUp.error) {
-          setTimeout(() => { countUp.start(); }, 1000);
+          countUp.start(() => {
+            setInterval(() => {
+              const selectedUsers = parsed.shortUserIds
+                .filter((elem) => !idsOnScreen.includes(elem))
+                .sort(() => 0.5 - Math.random())
+                .slice(0, amountOfPeople);
+              for (let user of selectedUsers) {
+                randomlyPlace(user);
+              }
+            }, 1000);
+          });
         } else {
           console.error(countUp.error);
         }
@@ -106,8 +127,10 @@
   </head>
 
   <body>
-    <main class="container" >
-      <p class="user-count"><span id="userCount" >0</span> nodes are running Citadel</p>
+    <main class="container">
+      <p class="user-count">
+        <span id="userCount">0</span> nodes are running Citadel
+      </p>
     </main>
   </body>
 </html>
