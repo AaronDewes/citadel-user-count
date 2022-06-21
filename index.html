@@ -95,7 +95,7 @@
         }
         const countUp = new CountUp("userCount", parsed.userCount);
         if (!countUp.error) {
-          setTimeout(() => { countUp.start(); }, 2000);
+          setTimeout(() => { countUp.start(); }, 1000);
         } else {
           console.error(countUp.error);
         }
