@@ -12,6 +12,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
       }
 
       #userCount {
@@ -27,10 +28,6 @@
         top: 0;
         left: 0;
         bottom: 0;
-      }
-
-      .white-bg {
-        background: var(--background-color);
       }
 
       @keyframes delayedShow {
@@ -254,10 +251,10 @@
 
   <body>
     <main class="container" >
-      <p class="user-count"><span id="userCount" class="white-bg">0</span></p>
+      <p class="user-count"><span id="userCount" >0</span> nodes are running Citadel</p>
     </main>
     <footer class="container">
-      <p class="white-bg">
+      <p>
         This page shows the amount of users today running Citadel 0.0.5 or later
         whose nodes are creating backups. Backups are being created by everyone
         who rebooted after the update or started with a version that was 0.0.5
