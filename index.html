@@ -30,12 +30,12 @@
       }
 
       .white-bg {
-        background: white;
+        background: var(--background-color);
       }
 
       @keyframes delayedShow {
         to {
-          opacity: 1;
+          opacity: 0.5;
         }
       }
 
@@ -234,7 +234,14 @@
         elem.style.animationDelay = randomDuration + "ms";
         document.body.appendChild(elem);
       }
-      const amountOfPeople = 30;
+      let amountOfPeople = 20;
+      if (window.innerWidth > 600) {
+        amountOfPeople = 50;
+      } else if (window.innerWidth > 1000) {
+        amountOfPeople = 100;
+      }  else if (window.innerWidth > 1300) {
+        amountOfPeople = 120;
+      }
       const selectedUsers = someUsers
         .sort(() => 0.5 - Math.random())
         .slice(0, amountOfPeople);
